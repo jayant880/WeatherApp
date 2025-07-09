@@ -45,35 +45,45 @@ function App() {
   }, [currentLocation]);
 
   return (
-    <div className="min-h-screen p-2.5 bg-gray-200">
-      <SearchBar
-        currentLocation={currentLocation}
-        changeCurrentLocation={changeCurrentLocation}
-      />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-300/30 to-purple-300/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-indigo-300/30 to-pink-300/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
 
-      {loading && <LoadingSpinner />}
-
-      {error && <ErrorMessage message={error} />}
-
-      {!loading && !error && currentWeatherData && (
-        <CurrentWeather
-          location={currentWeatherData.location}
-          current={currentWeatherData.current}
+      <div className="relative z-10">
+        <SearchBar
+          currentLocation={currentLocation}
+          changeCurrentLocation={changeCurrentLocation}
         />
-      )}
-      {!loading && !error && todayForecastData && (
-        <>
-          <TodayForecast
-            hour={todayForecastData.forecast.forecastday[0].hour}
-          />
-          <MoreDetails
-            day={todayForecastData.forecast.forecastday[0].day}
-            astro={todayForecastData.forecast.forecastday[0].astro}
-          />
-        </>
-      )}
+
+        {loading && <LoadingSpinner />}
+
+        {error && <ErrorMessage message={error} />}
+
+        {!loading && !error && currentWeatherData && (
+          <>
+            <CurrentWeather
+              location={currentWeatherData.location}
+              current={currentWeatherData.current}
+            />
+
+            {todayForecastData && (
+              <>
+                <TodayForecast
+                  hour={todayForecastData.forecast.forecastday[0].hour}
+                />
+                <MoreDetails
+                  day={todayForecastData.forecast.forecastday[0].day}
+                  astro={todayForecastData.forecast.forecastday[0].astro}
+                />
+              </>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
-
 export default App;
